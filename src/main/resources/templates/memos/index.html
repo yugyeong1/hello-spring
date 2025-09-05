@@ -1,0 +1,57 @@
+<!-- templates/members/memberList.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <title>목록</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; margin: 24px; }
+        h1 { margin-bottom: 12px; }
+        .meta { color: #666; margin-bottom: 16px; font-size: 14px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background: #f8f9fa; }
+        tr:hover { background: #fafafa; }
+        .empty { padding: 20px; background: #fff8e1; border: 1px solid #ffe082; border-radius: 6px; }
+        .actions a { margin-right: 8px; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+<h1>작성 목록</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>제목</th>
+        <th>내용</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="memo : ${memos}">
+        <td th:text="${memo.id}"></td>
+        <td th:text="${memo.title}"></td>
+        <td th:text="${memo.content}"></td>
+        <td>
+            <button type="button" th:attr="data-id=${memo.id}" onclick="deleteMemo(this)">삭제</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<p style="margin-top:16px;">
+    <a href="/memos/create">+ 메모 작성</a>
+</p>
+
+</body>
+</html>
+
+<script>
+function deleteMemo(btn) {
+    const id = btn.getAttribute("data-id");
+    fetch(`/memos/${id}/delete`, { method: 'DELETE' })
+        .then(() => window.location.reload());
+}
+</script>
