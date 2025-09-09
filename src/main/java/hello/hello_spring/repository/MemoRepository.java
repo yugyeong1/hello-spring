@@ -2,7 +2,6 @@ package hello.hello_spring.repository;
 
 import hello.hello_spring.domain.Memo;
 import jakarta.persistence.EntityManager;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,9 +19,10 @@ public class MemoRepository {
         return memo;
     }
 
-    public Optional<Memo> findById(long id) {
-        Memo memo = em.find(Memo.class, id);
-        return Optional.ofNullable(memo);
+
+
+    public Memo findById(long id) {
+        return em.find(Memo.class, id);
     }
 
     public Optional<Memo> findByTitle(String title) {

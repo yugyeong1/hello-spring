@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>메모 상세</title>
+</head>
+<body>
+
+<h1>메모 상세보기</h1>
+
+<button th:onclick="|window.location.href='/memos/update/${memo.id}'|"
+        style="cursor:pointer;">수정하기</button>
+
+<div>
+    <p th:text="${memo.id}"></p>
+    <p th:text="${memo.title}"></p>
+    <p th:text="${memo.content}"></p>
+</div>
+
+
+<a th:href="@{/memos}">목록으로</a>
+</body>
+</html>

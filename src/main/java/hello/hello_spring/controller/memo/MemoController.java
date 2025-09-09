@@ -6,12 +6,10 @@ import hello.hello_spring.domain.Memo;
 import hello.hello_spring.service.MemoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class MemoController {
@@ -40,7 +38,7 @@ public class MemoController {
         Memo memo = new Memo();
         memo.setTitle(memoForm.getTitle());
         memo.setContent(memoForm.getContent());
-        memoService.writeMemo(memo);
+        memoService.saveMemo(memo);
         return "redirect:/memos";
     }
 
@@ -49,4 +47,43 @@ public class MemoController {
         memoService.deleteMemo(id);
         return "redirect:/memos";
     }
+
+    // 상세
+    @GetMapping("/memos/{id}")
+    public String memoDetail(@PathVariable Long id, Model model) {
+        Memo memo = memoService.findMemoById(id);
+        if (memo == null) {
+            return "redirect:/memos";
+        }
+
+        model.addAttribute("memo", memo);
+        return "memos/detail";
+    }
+
+    // 업데이트
+    @GetMapping("/memos/update/{id}")
+    public String updateMemoForm(@PathVariable Long id, Model model) {
+        Memo memo = memoService.findMemoById(id);
+
+        if (memo == null) {
+            return "redirect:/memos";
+        }
+
+        model.addAttribute("memo", memo);
+        return "memos/update";
+    }
+
+    @PostMapping("memos/update/{id}")
+    public String updateMemo(MemoForm memoForm, @PathVariable Long id) {
+        Memo memo = memoService.findMemoById(id);
+        if (memo == null) {
+            return "redirect:/memos";
+        }
+
+        memo.setTitle(memoForm.getTitle());
+        memo.setContent(memoForm.getContent());
+        memoService.saveMemo(memo);
+        return "redirect:/memos";
+    }
+
 }

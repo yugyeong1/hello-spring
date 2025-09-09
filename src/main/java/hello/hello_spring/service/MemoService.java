@@ -16,7 +16,7 @@ public class MemoService {
 
     // 작성
     @Transactional
-    public Long writeMemo(Memo memo) {
+    public Long saveMemo(Memo memo) {
         memoRepository.save(memo);
         return memo.getId();
     }
@@ -29,6 +29,11 @@ public class MemoService {
     // 제목으로 조회
     public Optional<Memo> findMemoByTitle(String title){
         return memoRepository.findByTitle(title);
+    }
+
+    // ID로 조회
+    public Memo findMemoById(Long id){
+        return memoRepository.findById(id);
     }
 
     // 삭제
